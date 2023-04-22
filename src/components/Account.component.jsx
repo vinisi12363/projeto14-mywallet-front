@@ -6,8 +6,9 @@ import { useEffect, useState } from "react"
 import axios from 'axios'
 
 export default function AccountPage(){
-const {user, setUser} = UserContextHook()
+const {user} = UserContextHook()
 const [usermovement, setUserMovement] = useState([])
+const [totalAmount, setTotalAmount] = useState(0)
 
 
 useEffect( () => {
@@ -22,7 +23,20 @@ useEffect( () => {
         const require =  axios.get(URL, config);
         require.then(res => {
             console.log("MOVEMENTS RES DATA", res.data)
+            let soma= 0;
+            res.data.map((mov)=>{
+                console.log("soma "+soma)
+                
+                if(mov.type === 'increase') {
+                        soma = soma + mov.amount
+                }
+                if (mov.type ==='decrease') {
+                    soma -= mov.amount
+                }
+            })
             setUserMovement([...res.data])
+            setTotalAmount(soma)
+            
             if (res.data!== []){
                // setHaveHabits(true)
                 
@@ -39,6 +53,22 @@ useEffect( () => {
 
 }, [])
 
+function CalculateAmount(){
+    let soma= 0;
+   usermovement.map((mov)=>{
+        console.log("soma "+soma)
+        
+        if(mov.type === 'increase') {
+                soma = soma + mov.amount
+        }
+        if (mov.type ==='decrease') {
+            soma -= mov.amount
+        }
+    })
+
+    setTotalAmount(soma)
+}
+    console.log("AMOUNT VALE :",totalAmount )
 return(
     <>
              
@@ -49,26 +79,24 @@ return(
 
       <TransactionsContainer>
         <ul>
-          <ListItemContainer>
-            <div>
-              <span>30/11</span>
-              <strong>Almoço mãe</strong>
-            </div>
-            <Value color={"negativo"}>120,00</Value>
-          </ListItemContainer>
+            {
+                usermovement.map((movement)=> <ListItemContainer>{
+                        <>
+                            <div>
+                            <span>{movement.data}</span>
+                            <strong>{movement.descript}</strong>
+                            </div>
+                            <Value color={movement.type==="increase"? "positivo" : "negativo"} >{movement.amount}</Value>
+                        </>
+                        
 
-          <ListItemContainer>
-            <div>
-              <span>15/11</span>
-              <strong>Salário</strong>
-            </div>
-            <Value color={"positivo"}>3000,00</Value>
-          </ListItemContainer>
+                }</ListItemContainer>)
+            }
         </ul>
 
         <article>
           <strong>Saldo</strong>
-          <Value color={"positivo"}>2880,00</Value>
+          <Value color={totalAmount >= 0 ? "positivo" : "negativo"}>{totalAmount}</Value>
         </article>
       </TransactionsContainer>
 
