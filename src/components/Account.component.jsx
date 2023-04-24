@@ -24,7 +24,6 @@ export default function AccountPage() {
 
       const URL = `${process.env.REACT_APP_RENDER_URL}/home`
 
-      console.log (URL)
       const config = {
         headers: {
           "Authorization": `Bearer ${user.token}`
@@ -68,16 +67,31 @@ export default function AccountPage() {
 
   const increase = () => navigate('/nova-transacao/increase')
   const decrease = () => navigate('/nova-transacao/decrease')
+  const logout = () => {
+    setTimeout(() => {
+      localStorage.removeItem('user');
+      navigate('/');
+    }, 1500);
+  };
+  
   return (
     <>
 
       <Header>
         <h1>Olá, {user.username}</h1>
-        <BiExit />
+
+        <button onClick={()=>{logout()}}>
+            <BiExit  />
+        </button>
+      
       </Header>
 
       <TransactionsContainer>
-        <MovementContainer key="movement1">
+        <MovementContainer >
+
+         {!usermovement || usermovement ===[] ? <div>
+          <h2>Não há registros de entrada ou saída </h2>
+         </div>:
           <ul>
             {
               usermovement.map((movement) => <ListItemContainer>{
@@ -92,7 +106,9 @@ export default function AccountPage() {
 
               }</ListItemContainer>)
             }
-          </ul>
+          </ul> 
+         }
+        
         </MovementContainer>
         <article>
           <strong>Saldo</strong>
@@ -126,6 +142,20 @@ const Header = styled.header`
   margin-bottom: 15px;
   font-size: 26px;
   color: white;
+  button {
+        align-items:center;
+        text-align:center;  
+        outline: none;
+        border: none;
+        border-radius: 5px;
+        background-color: #a328d6;
+        font-size: 20px;
+        font-weight: 600;
+        color: #fff;
+        cursor: pointer;
+        width: 100%;
+        padding: 12px;
+    }
 `
 const TransactionsContainer = styled.article`
   flex-grow: 1;
@@ -186,3 +216,4 @@ const ListItemContainer = styled.li`
     margin-right: 10px;
   }
 `
+
