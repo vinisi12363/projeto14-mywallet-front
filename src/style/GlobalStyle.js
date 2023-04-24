@@ -7,6 +7,8 @@ const GlobalStyle = createGlobalStyle`
         font-weight: 400;
     }
     button {
+        align-items:center;
+        text-align:center;
         outline: none;
         border: none;
         border-radius: 5px;

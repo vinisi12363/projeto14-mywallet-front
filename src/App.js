@@ -5,28 +5,31 @@ import SignInPage from "./pages/SignInPage"
 import SignUpPage from "./pages/SignUpPage"
 import TransactionsPage from "./pages/TransactionPage"
 import { UserContext } from './Context/user.context'
-import { useEffect, useState } from "react"
-import { useNavigate } from "react-router-dom"
-import { Link } from "react-router-dom"
+import { useState } from "react"
+import ValidateAuth from "./components/Auth.component"
 
 
 export default function App() {
 
-  const [user , setUser] = useState ({})
+  const [user, setUser] = useState({})
 
 
   return (
-    <UserContext.Provider value= {{user, setUser}}>
-    <PagesContainer>
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<SignInPage />} />
-          <Route path="/registrar" element={<SignUpPage />} />
-          <Route path="/home" element={<HomePage />} />
-          <Route path="/nova-transacao/:tipo" element={<TransactionsPage />} />
-        </Routes>
-      </BrowserRouter>
-    </PagesContainer>
+    <UserContext.Provider value={{ user, setUser }}>
+      <PagesContainer>
+        <BrowserRouter>
+          <Routes>
+            <Route path="/" element={<ValidateAuth />} exact >
+              <Route path="/" element={<SignInPage />} />
+              <Route path="/registrar" element={<SignUpPage />} />
+            </Route>
+
+            <Route path="/home" element={<HomePage />} />
+
+            <Route path="/nova-transacao/:tipo" element={<TransactionsPage />} />
+          </Routes>
+        </BrowserRouter>
+      </PagesContainer>
     </UserContext.Provider>
   )
 }

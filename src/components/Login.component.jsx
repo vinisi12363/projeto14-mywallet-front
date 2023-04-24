@@ -16,15 +16,7 @@ export default function LoginPage(){
     const [btnClicked, setBtnClicked] = useState (false)
    
 
-    useEffect( () => {
-        const lsUser = JSON.parse(localStorage.getItem("user"))
-
-        if(lsUser){
-            setUser(lsUser)
-            navigate('/home')
-        }
     
-    },[])
 
 
     function login(e){
@@ -33,7 +25,7 @@ export default function LoginPage(){
     
         e.preventDefault()
         setBtnClicked(true)
-        const URL = "https://mywalletback-p0ll.onrender.com/login"
+        const URL = `${process.env.REACT_APP_RENDER_URL}/login`
         
         setEnterClicked(true)
         const body ={email,password}

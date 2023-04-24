@@ -4,8 +4,7 @@ import { BiExit } from "react-icons/bi"
 import { AiOutlineMinusCircle, AiOutlinePlusCircle } from "react-icons/ai"
 import { useEffect, useState } from "react"
 import axios from 'axios'
-import { useNavigate } from "react-router-dom";
-import TransactionPage from "./Transaction.component.jsx"
+import { useNavigate } from "react-router-dom"
 
 
 
@@ -23,7 +22,9 @@ export default function AccountPage() {
       
     }else{
 
-      const URL = "https://mywalletback-p0ll.onrender.com/home"
+      const URL = `${process.env.REACT_APP_RENDER_URL}/home`
+
+      console.log (URL)
       const config = {
         headers: {
           "Authorization": `Bearer ${user.token}`

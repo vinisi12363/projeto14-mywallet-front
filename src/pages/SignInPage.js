@@ -1,6 +1,6 @@
 import styled from "styled-components"
 import { Link } from "react-router-dom"
-import MyWalletLogo from "../components/MyWalletLogo"
+import MyWalletLogo from "../components/MyWalletLogo.component"
 import LoginPage from '../components/Login.component'
 export default function SignInPage() {
   return (
@@ -20,8 +20,5 @@ const SingInContainer = styled.section`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  button{
-    text-align:center;
 
-  }
 `
