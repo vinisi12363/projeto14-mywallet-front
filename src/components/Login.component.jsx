@@ -2,12 +2,12 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from 'axios'
 import UserContextHook from '../Hooks/user.hook'
-import dotenv from 'dotenv'
+
 
 
 
 export default function LoginPage(){
-    dotenv.config()
+
     const {user, setUser} = UserContextHook()
     const [enterClicked , setEnterClicked] = useState(false)
     const [email , setEmail] = useState("")
