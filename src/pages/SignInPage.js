@@ -20,4 +20,8 @@ const SingInContainer = styled.section`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  button{
+    text-align:center;
+
+  }
 `

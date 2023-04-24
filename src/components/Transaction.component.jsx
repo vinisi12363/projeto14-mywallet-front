@@ -2,6 +2,7 @@ import axios from 'axios'
 import { useEffect, useState } from 'react'
 import UserContextHook from '../Hooks/user.hook'
 import { useNavigate } from "react-router-dom";
+import { ThreeDots } from 'react-loader-spinner'
 
 export function TransactionPage() {
         const {user} = UserContextHook()
@@ -18,7 +19,7 @@ export function TransactionPage() {
      
         const saveMovement = (e)=>{
         e.preventDefault()
-        console.log('TYPE VALE: ', type)
+        
         if(type && amount && descript){
                 try {
                         const URL ="https://mywalletback-p0ll.onrender.com/home"

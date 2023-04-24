@@ -1,4 +1,4 @@
-import UserContextHook  from "../Hooks/user.hook.jsx"
+import UserContextHook from "../Hooks/user.hook.jsx"
 import styled from "styled-components"
 import { BiExit } from "react-icons/bi"
 import { AiOutlineMinusCircle, AiOutlinePlusCircle } from "react-icons/ai"
@@ -6,99 +6,92 @@ import { useEffect, useState } from "react"
 import axios from 'axios'
 import { useNavigate } from "react-router-dom";
 import TransactionPage from "./Transaction.component.jsx"
-export default function AccountPage(){
-const {user} = UserContextHook()
-const [usermovement, setUserMovement] = useState([])
-const [totalAmount, setTotalAmount] = useState(0)
-const navigate = useNavigate()
 
 
-useEffect( () => {
-    const URL = "https://mywalletback-p0ll.onrender.com/home"
-    const config = {
+
+export default function AccountPage() {
+  const {user} = UserContextHook()
+  const [usermovement, setUserMovement] = useState([])
+  const [totalAmount, setTotalAmount] = useState(0)
+  const navigate = useNavigate()
+  
+ 
+  useEffect(() => {
+
+    if(!user.token){
+      navigate('/')
+      
+    }else{
+
+      const URL = "https://mywalletback-p0ll.onrender.com/home"
+      const config = {
         headers: {
-            "Authorization": `Bearer ${user.token}`
+          "Authorization": `Bearer ${user.token}`
         }
-    }
+      }
   
-
-        const require =  axios.get(URL, config);
-        require.then(res => {
-            console.log("MOVEMENTS RES DATA", res.data)
-            let soma= 0;
-            res.data.map((mov)=>{
-                console.log("soma "+soma)
-                
-                if(mov.type === 'increase') {
-                        soma = soma + mov.amount
-                }
-                if (mov.type ==='decrease') {
-                    soma -= mov.amount
-                }
-            })
-            setUserMovement([...res.data])
-            setTotalAmount(soma)
-            
-            if (res.data!== []){
-               // setHaveHabits(true)
-                
-    
-            }
-            
-    
-        })
-        require.catch(err => {
-            console.log(err.response.message)
-           // setHaveHabits(false)
-        })
   
-
-}, [])
-
-function CalculateAmount(){
-    let soma= 0;
-   usermovement.map((mov)=>{
-        console.log("soma "+soma)
-        
-        if(mov.type === 'increase') {
-                soma = soma + mov.amount
-        }
-        if (mov.type ==='decrease') {
+      const require = axios.get(URL, config);
+      require.then(res => {
+  
+        let soma = 0;
+        res.data.map((mov) => {
+  
+  
+          if (mov.type === 'increase') {
+            soma = soma + mov.amount
+          }
+          if (mov.type === 'decrease') {
             soma -= mov.amount
-        }
-    })
+          }
+        })
+          setUserMovement([...res.data])
+          setTotalAmount(soma)
+  
 
-    setTotalAmount(soma)
-}
+  
+      })
+      require.catch(err => {
+        console.log(err.message)
+        
+      })
+    
+    }
+     
+    
+    
+
+  }, [])
 
 
-const increase=() => navigate('/nova-transacao/increase')
-const decrease=() => navigate('/nova-transacao/decrease')
-return(
+
+  const increase = () => navigate('/nova-transacao/increase')
+  const decrease = () => navigate('/nova-transacao/decrease')
+  return (
     <>
-             
+
       <Header>
         <h1>Olá, {user.username}</h1>
         <BiExit />
       </Header>
 
       <TransactionsContainer>
-       <MovementContainer key="movement1">
-        <ul>
+        <MovementContainer key="movement1">
+          <ul>
             {
-                usermovement.map((movement)=> <ListItemContainer>{
-                        <>
-                            <div>
-                            <span>{movement.data}</span>
-                            <strong>{movement.descript}</strong>
-                            </div>
-                            <Value color={movement.type==="increase"? "positivo" : "negativo"} >{movement.amount}</Value>
-                        </>
-                        
+              usermovement.map((movement) => <ListItemContainer>{
+                <>
+                  <div>
+                    <span>{movement.data}</span>
+                    <strong>{movement.descript}</strong>
+                  </div>
+                  <Value color={movement.type === "increase" ? "positivo" : "negativo"} >{movement.amount}</Value>
+                </>
 
-                }</ListItemContainer>)
+
+              }</ListItemContainer>)
             }
-        </ul>
+          </ul>
         </MovementContainer>
         <article>
           <strong>Saldo</strong>
@@ -108,19 +101,19 @@ return(
 
 
       <ButtonsContainer>
-      
-        <button onClick = {()=>{increase()}}>
+
+        <button onClick={() => { increase() }}>
           <AiOutlinePlusCircle />
           <p>Nova <br /> entrada</p>
         </button>
-        <button onClick = {()=>{decrease()}}>
+        <button onClick={() => { decrease() }}>
           <AiOutlineMinusCircle />
           <p>Nova <br />saída</p>
         </button>
       </ButtonsContainer>
 
     </>
-)
+  )
 
 }
 
