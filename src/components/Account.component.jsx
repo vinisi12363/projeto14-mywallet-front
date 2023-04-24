@@ -4,15 +4,17 @@ import { BiExit } from "react-icons/bi"
 import { AiOutlineMinusCircle, AiOutlinePlusCircle } from "react-icons/ai"
 import { useEffect, useState } from "react"
 import axios from 'axios'
-
+import { useNavigate } from "react-router-dom";
+import TransactionPage from "./Transaction.component.jsx"
 export default function AccountPage(){
 const {user} = UserContextHook()
 const [usermovement, setUserMovement] = useState([])
 const [totalAmount, setTotalAmount] = useState(0)
+const navigate = useNavigate()
 
 
 useEffect( () => {
-    const URL = "http://localhost:5000/home"
+    const URL = "https://mywalletback-p0ll.onrender.com/home"
     const config = {
         headers: {
             "Authorization": `Bearer ${user.token}`
@@ -46,7 +48,7 @@ useEffect( () => {
     
         })
         require.catch(err => {
-            console.log(err.response.data.message)
+            console.log(err.response.message)
            // setHaveHabits(false)
         })
   
@@ -68,7 +70,10 @@ function CalculateAmount(){
 
     setTotalAmount(soma)
 }
-    console.log("AMOUNT VALE :",totalAmount )
+
+
+const increase=() => navigate('/nova-transacao/increase')
+const decrease=() => navigate('/nova-transacao/decrease')
 return(
     <>
              
@@ -78,6 +83,7 @@ return(
       </Header>
 
       <TransactionsContainer>
+       <MovementContainer key="movement1">
         <ul>
             {
                 usermovement.map((movement)=> <ListItemContainer>{
@@ -93,7 +99,7 @@ return(
                 }</ListItemContainer>)
             }
         </ul>
-
+        </MovementContainer>
         <article>
           <strong>Saldo</strong>
           <Value color={totalAmount >= 0 ? "positivo" : "negativo"}>{totalAmount}</Value>
@@ -102,11 +108,12 @@ return(
 
 
       <ButtonsContainer>
-        <button>
+      
+        <button onClick = {()=>{increase()}}>
           <AiOutlinePlusCircle />
           <p>Nova <br /> entrada</p>
         </button>
-        <button>
+        <button onClick = {()=>{decrease()}}>
           <AiOutlineMinusCircle />
           <p>Nova <br />saída</p>
         </button>
@@ -143,6 +150,11 @@ const TransactionsContainer = styled.article`
       text-transform: uppercase;
     }
   }
+`
+const MovementContainer = styled.div`
+overflow-y:auto;
+height:520px;
+
 `
 const ButtonsContainer = styled.section`
   margin-top: 15px;

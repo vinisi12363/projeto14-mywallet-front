@@ -16,7 +16,7 @@ export default function SingUpPage() {
         e.preventDefault()
         setBtnClicked(true);
 
-        const URL ="http://localhost:5000/registrar"
+        const URL ="https://mywalletback-p0ll.onrender.com/registrar"
 
         const body = { name: userName, email: userEmail, password: userPassword }
         try {
@@ -90,7 +90,7 @@ export default function SingUpPage() {
                                     timeout={2000}
                                     visible={btnClicked}
                                 /> ):('Cadastrar')
-                                }
+                         }
             </button>
         </form>
 

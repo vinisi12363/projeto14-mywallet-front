@@ -2,10 +2,12 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from 'axios'
 import UserContextHook from '../Hooks/user.hook'
-import MyWalletLogo from "./MyWalletLogo";
+import dotenv from 'dotenv'
+
 
 
 export default function LoginPage(){
+    dotenv.config()
     const {user, setUser} = UserContextHook()
     const [enterClicked , setEnterClicked] = useState(false)
     const [email , setEmail] = useState("")
@@ -14,17 +16,17 @@ export default function LoginPage(){
 
     function login(e){
         e.preventDefault()
-        const URL ="http://localhost:5000/login"
+        const URL = "https://mywalletback-p0ll.onrender.com/login"
         
         setEnterClicked(true)
         const body ={email,password}
-        console.log ("BODY", body)
         const promise= axios.post(URL , body)
         promise.then(res=>{
            
             const newUserData = res.data
+            console.log(res.data)
             setUser(newUserData)
-           console.log("RES.DATA", newUserData)
+            localStorage.setItem("token" , res.data.token)
             navigate("/home")
           
         })
@@ -41,20 +43,18 @@ export default function LoginPage(){
     <>
          <form>
          <input 
-                        data-test="email-input"
+                    
                         type="email" 
                         value={email}
                         placeholder="email"
-                        
                         required
                         onChange={e=>setEmail(e.target.value)}
          ></input>
          <input 
-                        data-test="password-input"
+                       
                         type="text"
                         value={password}
                         placeholder="senha"
-                       
                         required
                         onChange={e=>setPassword(e.target.value)}
          ></input>
