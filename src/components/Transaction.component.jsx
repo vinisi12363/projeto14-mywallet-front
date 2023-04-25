@@ -58,7 +58,7 @@ export function TransactionPage() {
                         <form>
                                 <input
                                
-                                type="amount" 
+                                type="number" 
                                 value={amount}
                                 placeholder="valor"
                                 required
@@ -68,7 +68,7 @@ export function TransactionPage() {
                                 <input 
                                         
                                     
-                                        type="descript" 
+                                        type="text" 
                                         value={descript}
                                         placeholder="descrição"
                                         required

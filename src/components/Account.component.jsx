@@ -5,11 +5,15 @@ import { AiOutlineMinusCircle, AiOutlinePlusCircle } from "react-icons/ai"
 import { useEffect, useState } from "react"
 import axios from 'axios'
 import { useNavigate } from "react-router-dom"
+import { CirclesWithBar } from 'react-loader-spinner'
+import { BulletList } from 'react-content-loader'
 
+const MyBulletListLoader = () => <BulletList />
 
 
 export default function AccountPage() {
   const {user} = UserContextHook()
+  const [movementLoaded , setMovemenLoaded ] = useState (false)
   const [usermovement, setUserMovement] = useState([])
   const [totalAmount, setTotalAmount] = useState(0)
   const navigate = useNavigate()
@@ -47,7 +51,7 @@ export default function AccountPage() {
         })
           setUserMovement([...res.data])
           setTotalAmount(soma)
-  
+          setMovemenLoaded(true)
 
   
       })
@@ -88,26 +92,33 @@ export default function AccountPage() {
 
       <TransactionsContainer>
         <MovementContainer >
+    
+       
+        {!movementLoaded ? 
 
-         {!usermovement || usermovement ===[] ? <div>
-          <h2>Não há registros de entrada ou saída </h2>
-         </div>:
+          <MyBulletListLoader/> : 
+
           <ul>
             {
-              usermovement.map((movement) => <ListItemContainer>{
-                <>
-                  <div>
-                    <span>{movement.data}</span>
-                    <strong>{movement.descript}</strong>
-                  </div>
-                  <Value color={movement.type === "increase" ? "positivo" : "negativo"} >{movement.amount}</Value>
-                </>
+                usermovement.map((movement) => <ListItemContainer>{
+                
+                  <>  
+                 
+                    <div>
+                      <span>{movement.data}</span>
+                      <strong>{movement.descript}</strong>
+                    </div>
+                    <Value color={movement.type === "increase" ? "positivo" : "negativo"} >{movement.amount}</Value>
+                  </>
 
 
-              }</ListItemContainer>)
-            }
-          </ul> 
-         }
+                }</ListItemContainer>)
+              }
+          </ul>
+            
+        }
+        
+     
         
         </MovementContainer>
         <article>
@@ -142,19 +153,16 @@ const Header = styled.header`
   margin-bottom: 15px;
   font-size: 26px;
   color: white;
-  button {
-        align-items:center;
-        text-align:center;  
-        outline: none;
-        border: none;
-        border-radius: 5px;
-        background-color: #a328d6;
-        font-size: 20px;
-        font-weight: 600;
-        color: #fff;
-        cursor: pointer;
-        width: 100%;
-        padding: 12px;
+  
+    button {
+    max-width: 35px;
+    max-height: 40px;
+    font-size: 22px;
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  
     }
 `
 const TransactionsContainer = styled.article`

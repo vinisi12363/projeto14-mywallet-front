@@ -1,48 +1,53 @@
 import { useNavigate } from 'react-router-dom'
 import MyWalletLogo from "./MyWalletLogo.component"
 import axios from "axios"
-//import dotenv from 'dotenv'
-import { ThreeDots } from 'react-loader-spinner'
+import { TailSpin } from 'react-loader-spinner'
 import { useState } from 'react'
+import styled from 'styled-components'
+
 
 export default function SingUpPage() {
-
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     const [btnClicked, setBtnClicked] = useState (false)
     const [userEmail, setUserEmail] = useState("")
     const [userPassword, setUserPassword] = useState("")
     const [confirmPwd, setConfirmPwd] = useState("")
     const [userName, setUserName] = useState("")
-   // dotenv.config()
+
     const navigate = useNavigate();
     function registerUser(e) {
-        if (userPassword === confirmPwd){
-            e.preventDefault()
-            setBtnClicked(true);
-    
-            const URL = `${process.env.REACT_APP_RENDER_URL}/registrar`
-    
-            const body = { name: userName, email: userEmail, password: userPassword }
-            try {
-                const require = axios.post(URL, body)
-                require.then(res => {
-                    alert("usuário Cadastrado com sucesso!")
-                    setBtnClicked(false)
-                    navigate("/")
-    
-                })
-                require.catch(err => {
-                    setBtnClicked(false)
-                    console.log(err.message)
-                    err.response.status.message === 409 && alert("usuario já cadastrado")
-    
-                })
-    
-            } catch (err) { console.log(err.message) }
-    
-        } else {
-            alert("a senha e a confirmação de senha tem que ser iguais!")
-        }
+
+        if( emailRegex.test(userEmail)){
+            if (userPassword === confirmPwd){
+                e.preventDefault()
+                setBtnClicked(true);
         
+                const URL = `${process.env.REACT_APP_RENDER_URL}/registrar`
+        
+                const body = { name: userName, email: userEmail, password: userPassword }
+                try {
+                    const require = axios.post(URL, body)
+                    require.then(res => {
+                        alert("usuário Cadastrado com sucesso!")
+                        setBtnClicked(false)
+                        navigate("/")
+        
+                    })
+                    require.catch(err => {
+                        setBtnClicked(false)
+                        console.log(err.message)
+                        err.response.status.message === 409 && alert("usuario já cadastrado")
+        
+                    })
+        
+                } catch (err) { console.log(err.message) }
+        
+            } else {
+                alert("a senha e a confirmação de senha tem que ser iguais!")
+            }
+        }else{
+            alert("formato de email invalido!")
+        }
     
 
 
@@ -89,20 +94,22 @@ export default function SingUpPage() {
                         required
                         onChange={e=>setConfirmPwd(e.target.value)}
             />
-            <button
+            <StyledButton
                 onClick={(e) => registerUser(e)}
                 type="submit"> {
                                     btnClicked ? 
-                                    (<ThreeDots
-                                    type="Spinner Type"
-                                    color="white"
-                                    height={60}
-                                    width={60}
-                                    timeout={2000}
-                                    visible={btnClicked}
+                                    (<TailSpin
+                                        height="50"
+                                        width="50"
+                                        color="#FFFFFF"
+                                        ariaLabel="tail-spin-loading"
+                                        radius="1"
+                                        wrapperStyle={{}}
+                                        wrapperClass=""
+                                        visible={btnClicked}
                                 /> ):('Cadastrar')
                          }
-            </button>
+            </StyledButton>
         </form>
 
         </>
@@ -111,4 +118,9 @@ export default function SingUpPage() {
 }
 
 
+const StyledButton = styled.button`
+         display:flex;
+        flex-direction: column;
+        align-items:center;
 
+`

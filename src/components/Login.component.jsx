@@ -2,14 +2,15 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from 'axios'
 import UserContextHook from '../Hooks/user.hook'
-import { ThreeDots } from 'react-loader-spinner'
+import { TailSpin } from 'react-loader-spinner'
+import styled from "styled-components";
+
 
 
 
 export default function LoginPage(){
-
-    const {user,setUser} = UserContextHook()
-    const [enterClicked , setEnterClicked] = useState(false)
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const {setUser} = UserContextHook()
     const [email , setEmail] = useState("")
     const [password, setPassword] = useState("")
     const navigate = useNavigate();
@@ -21,13 +22,10 @@ export default function LoginPage(){
 
     function login(e){
      
-        
-    
+       if( emailRegex.test(email)){
         e.preventDefault()
         setBtnClicked(true)
         const URL = `${process.env.REACT_APP_RENDER_URL}/login`
-        
-        setEnterClicked(true)
         const body ={email,password}
         const promise= axios.post(URL , body)
         promise.then(res=>{
@@ -41,11 +39,14 @@ export default function LoginPage(){
 
         promise.catch(err=>{
             alert(err.response.data.message)
-            setEnterClicked(false)
+        
             
         })
 
-        
+
+        }else{
+            alert('formato de email inválido!')
+        }
 
         
        
@@ -55,7 +56,6 @@ export default function LoginPage(){
     <>
          <form>
          <input 
-                    
                         type="email" 
                         value={email}
                         placeholder="email"
@@ -72,20 +72,32 @@ export default function LoginPage(){
                         required
                         onChange={e=>setPassword(e.target.value)}
          ></input>
-        <button onClick= {(e)=>login(e)} type="submit">{
+        <StyledButton onClick= {(e)=>login(e)} type="submit">{
                                     btnClicked ? 
-                                    (<ThreeDots
-                                    type="Spinner Type"
-                                    color="white"
-                                    height={60}
-                                    width={60}
-                                    timeout={2000}
-                                    visible={btnClicked}
-                                /> ):('Entrar')
-                         }</button>
+                                    (<TailSpin
+                                        height="50"
+                                        width="50"
+                                        color="#FFFFFF"
+                                        ariaLabel="tail-spin-loading"
+                                        radius="1"
+                                        wrapperStyle={{}}
+                                        wrapperClass=""
+                                        visible={btnClicked}
+                                />):('Entrar')
+                         }</StyledButton>
       </form>
     </>
    )
 
 
+
+
 }
+
+
+const StyledButton = styled.button`
+display:flex;
+flex-direction: column;
+align-items:center;
+
+`

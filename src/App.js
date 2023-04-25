@@ -19,8 +19,8 @@ export default function App() {
       <PagesContainer>
         <BrowserRouter>
           <Routes>
-            <Route path="/" element={<ValidateAuth />} exact >
-              <Route path="/" element={<SignInPage />} />
+            <Route path="/" element={<ValidateAuth />}  >
+              <Route path="/" element={<SignInPage />} exact/>
               <Route path="/registrar" element={<SignUpPage />} />
             </Route>
 
