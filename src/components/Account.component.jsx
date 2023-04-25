@@ -17,7 +17,7 @@ export default function AccountPage() {
   const [usermovement, setUserMovement] = useState([])
   const [totalAmount, setTotalAmount] = useState(0)
   const navigate = useNavigate()
-   console.log ("usermoevement vale:" ,usermovement)
+   
  
   useEffect(() => {
 
@@ -97,23 +97,27 @@ export default function AccountPage() {
         {!movementLoaded &&  <MyBulletListLoader/> }
         {movementLoaded && usermovement.length === 0 && <StyledH2>Não há registro de entrada ou saída</StyledH2> }
         {movementLoaded && usermovement.length >0 &&  
-            <ul>
-              {
-                  usermovement.map((movement) => <ListItemContainer>{
-                  
-                  <>  
-                  
+                    <ul>
+            {
+              usermovement
+                .map((movement) => (
+                  <ListItemContainer>
+                    <>
                       <div>
-                      <span>{movement.data}</span>
-                      <strong>{movement.descript}</strong>
+                        <span>{movement.data}</span>
+                        <strong>{movement.descript}</strong>
                       </div>
-                      <Value color={movement.type === "increase" ? "positivo" : "negativo"} >{movement.amount}</Value>
-                  </>
+                      <Value
+                        color={movement.type === "increase" ? "positivo" : "negativo"}
+                      >
+                        {movement.amount}
+                      </Value>
+                    </>
+                  </ListItemContainer>
+                )).reverse()
+            }
+          </ul>
 
-
-                  }</ListItemContainer>)
-              }
-            </ul>
             
           }
          
