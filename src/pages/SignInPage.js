@@ -8,7 +8,7 @@ export default function SignInPage() {
     <MyWalletLogo/>
      <LoginPage />
       <Link to="/registrar">
-        <h2>Primeira vez? Cadastre-se!</h2>
+        <StyledH2>Primeira vez? Cadastre-se!</StyledH2>
       </Link>
     </SingInContainer>
   )
@@ -21,4 +21,9 @@ const SingInContainer = styled.section`
   justify-content: center;
   align-items: center;
 
+`
+
+const StyledH2 = styled.h2`
+
+margin-top:15px;
 `
