@@ -17,7 +17,7 @@ export default function AccountPage() {
   const [usermovement, setUserMovement] = useState([])
   const [totalAmount, setTotalAmount] = useState(0)
   const navigate = useNavigate()
-  
+   console.log ("usermoevement vale:" ,usermovement)
  
   useEffect(() => {
 
@@ -94,30 +94,29 @@ export default function AccountPage() {
         <MovementContainer >
     
        
-        {!movementLoaded ? 
-
-          <MyBulletListLoader/> : 
-
-          <ul>
-            {
-                usermovement.map((movement) => <ListItemContainer>{
-                
+        {!movementLoaded &&  <MyBulletListLoader/> }
+        {movementLoaded && usermovement.length === 0 && <StyledH2>Não há registro de entrada ou saída</StyledH2> }
+        {movementLoaded && usermovement.length >0 &&  
+            <ul>
+              {
+                  usermovement.map((movement) => <ListItemContainer>{
+                  
                   <>  
-                 
-                    <div>
+                  
+                      <div>
                       <span>{movement.data}</span>
                       <strong>{movement.descript}</strong>
-                    </div>
-                    <Value color={movement.type === "increase" ? "positivo" : "negativo"} >{movement.amount}</Value>
+                      </div>
+                      <Value color={movement.type === "increase" ? "positivo" : "negativo"} >{movement.amount}</Value>
                   </>
 
 
-                }</ListItemContainer>)
+                  }</ListItemContainer>)
               }
-          </ul>
+            </ul>
             
-        }
-        
+          }
+         
      
         
         </MovementContainer>
@@ -225,3 +224,21 @@ const ListItemContainer = styled.li`
   }
 `
 
+const StyledH2 = styled.h2`
+position: relative;
+width: 180px;
+height: 46px;
+left: 22%;
+top: 50%;
+text-align:center;
+font-family: 'Raleway';
+font-style: normal;
+font-weight: 400;
+font-size: 20px;
+line-height: 23px;
+text-align: center;
+
+color: #868686
+
+
+`

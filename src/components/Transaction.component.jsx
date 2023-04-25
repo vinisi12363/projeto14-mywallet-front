@@ -2,7 +2,8 @@ import axios from 'axios'
 import { useEffect, useState } from 'react'
 import UserContextHook from '../Hooks/user.hook'
 import { useNavigate } from "react-router-dom";
-import { ThreeDots } from 'react-loader-spinner'
+import { TailSpin } from 'react-loader-spinner'
+import styled from 'styled-components';
 
 export function TransactionPage() {
         const {user} = UserContextHook()
@@ -10,10 +11,10 @@ export function TransactionPage() {
         const [amount, setAmount] = useState()
         const [descript, setDescript] = useState("")
         const navigate = useNavigate()
-       
+        const [btnClicked, setBtnClicked] = useState (false)
      
         useEffect(() => {
-                if(!user.token){
+                if(!user.token || !user){
                         navigate('/')
                 }                  
                 setType(window.location.pathname.split('/')[2]);
@@ -21,9 +22,10 @@ export function TransactionPage() {
      
      
         const saveMovement = (e)=>{
-        e.preventDefault()
+                setBtnClicked(true)
+                e.preventDefault()
         
-        if(type && amount && descript){
+        if(type && amount && descript && amount > 0){
                 try {
                         const URL ="https://mywalletback-p0ll.onrender.com/home"
                         
@@ -38,15 +40,20 @@ export function TransactionPage() {
                         const promise= axios.post(URL , body, config)
                         promise.then(res=>{
                         console.log(res.data)
+                        setBtnClicked(false)
                         navigate("/home") 
                         })
         
                         promise.catch(err=>{
+                                setBtnClicked(false)
                         alert(err.response.data.message)
                         })
         
                 }catch(err){console.log(err.message)}
         
+        }else{
+                alert('existem campos inválidos!')
+                window.location.reload(true)
         }
      
 
@@ -78,7 +85,19 @@ export function TransactionPage() {
                                         onChange={e=>setDescript(e.target.value)}
                                 />
                                 
-                                <button onClick= {(e)=>saveMovement(e)} type="submit" >Salvar TRANSAÇÃO</button>
+                                <StyledButton onClick= {(e)=>saveMovement(e)} type="submit" >{
+                                btnClicked ? 
+                                    (<TailSpin
+                                        height="50"
+                                        width="50"
+                                        color="#FFFFFF"
+                                        ariaLabel="tail-spin-loading"
+                                        radius="1"
+                                        wrapperStyle={{}}
+                                        wrapperClass=""
+                                        visible={btnClicked}
+                                />):('Salvar Transação')
+                                }</StyledButton>
                         </form>
                 </>
 
@@ -86,5 +105,12 @@ export function TransactionPage() {
 
 
 }
+
+const StyledButton = styled.button`
+display:flex;
+flex-direction: column;
+align-items:center;
+
+`
 
 export default TransactionPage
