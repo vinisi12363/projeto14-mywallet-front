@@ -8,7 +8,7 @@ export default function SignInPage() {
     <MyWalletLogo/>
      <LoginPage />
       <Link to="/registrar">
-        Primeira vez? Cadastre-se!
+        <h2>Primeira vez? Cadastre-se!</h2>
       </Link>
     </SingInContainer>
   )

@@ -22,11 +22,11 @@ export default function App() {
             <Route path="/" element={<ValidateAuth />}  >
               <Route path="/" element={<SignInPage />} exact/>
               <Route path="/registrar" element={<SignUpPage />} />
-            </Route>
-
+              </Route>
             <Route path="/home" element={<HomePage />} />
 
             <Route path="/nova-transacao/:tipo" element={<TransactionsPage />} />
+            
           </Routes>
         </BrowserRouter>
       </PagesContainer>

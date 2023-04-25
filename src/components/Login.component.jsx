@@ -39,8 +39,7 @@ export default function LoginPage(){
 
         promise.catch(err=>{
             alert(err.response.data.message)
-        
-            
+            window.location.reload(true)
         })
 
 
@@ -58,7 +57,7 @@ export default function LoginPage(){
          <input 
                         type="email" 
                         value={email}
-                        placeholder="email"
+                        placeholder="Email"
                         disabled={btnClicked}
                         required
                         onChange={e=>setEmail(e.target.value)}
@@ -67,7 +66,7 @@ export default function LoginPage(){
                        
                         type="password"
                         value={password}
-                        placeholder="senha"
+                        placeholder="Senha"
                         disabled={btnClicked}
                         required
                         onChange={e=>setPassword(e.target.value)}

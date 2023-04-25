@@ -62,7 +62,7 @@ export default function SingUpPage() {
                         
                         type="text"
                         value={userName} 
-                        placeholder="nome"
+                        placeholder="Nome"
                         disabled={btnClicked} 
                         required
                         onChange={e=>setUserName(e.target.value)}
@@ -71,7 +71,7 @@ export default function SingUpPage() {
                         
                         type="email" 
                         value={userEmail}
-                        placeholder="email"
+                        placeholder="Email"
                         disabled={btnClicked}
                         required
                         onChange={e=>setUserEmail(e.target.value)}
@@ -80,7 +80,7 @@ export default function SingUpPage() {
                     
                         type="password"
                         value={userPassword}
-                        placeholder="senha"
+                        placeholder="Senha"
                         disabled={btnClicked}
                         required
                         onChange={e=>setUserPassword(e.target.value)}
@@ -89,7 +89,7 @@ export default function SingUpPage() {
                    
                         type="password"
                         value={confirmPwd}
-                        placeholder="senha"
+                        placeholder="Confirme a senha"
                         disabled={btnClicked}
                         required
                         onChange={e=>setConfirmPwd(e.target.value)}

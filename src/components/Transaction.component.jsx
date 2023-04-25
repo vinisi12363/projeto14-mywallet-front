@@ -13,6 +13,9 @@ export function TransactionPage() {
        
      
         useEffect(() => {
+                if(!user.token){
+                        navigate('/')
+                }                  
                 setType(window.location.pathname.split('/')[2]);
         }, []);
      
