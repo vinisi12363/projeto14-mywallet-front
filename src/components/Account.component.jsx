@@ -110,7 +110,7 @@ export default function AccountPage() {
                       <Value
                         color={movement.type === "increase" ? "positivo" : "negativo"}
                       >
-                        {movement.amount}
+                        R$ {movement.amount}
                       </Value>
                     </>
                   </ListItemContainer>
@@ -126,7 +126,7 @@ export default function AccountPage() {
         </MovementContainer>
         <article>
           <strong>Saldo</strong>
-          <Value color={totalAmount >= 0 ? "positivo" : "negativo"}>{totalAmount}</Value>
+          <Value color={totalAmount >= 0 ? "positivo" : "negativo"}>R$ {totalAmount}</Value>
         </article>
       </TransactionsContainer>
 
